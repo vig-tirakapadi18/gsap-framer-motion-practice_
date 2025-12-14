@@ -6,27 +6,27 @@ import { ScrollTrigger } from "gsap/all";
 import Image from "next/image";
 import AnimatedTitle from "./AnimatedTitle";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
-    useGSAP(() => {
-        const clipAnimation = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#clip",
-                start: "center center",
-                end: "+=800",
-                scrub: 0.5,
-                pin: true,
-                pinSpacing: true
-            }
-        })
+  useGSAP(() => {
+    const clipAnimation = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#clip",
+        start: "center center",
+        end: "+=800",
+        scrub: 0.5,
+        pin: true,
+        pinSpacing: true,
+      },
+    });
 
-        clipAnimation.to(".mask-clip-path", {
-            width: "100vw",
-            height: "100vh",
-            borderRadius: 0
-        })
-    }, [])
+    clipAnimation.to(".mask-clip-path", {
+      width: "100vw",
+      height: "100vh",
+      borderRadius: 0,
+    });
+  }, []);
 
   return (
     <div id="about" className="min-h-screen w-screen">
@@ -35,10 +35,10 @@ const About = () => {
           Welcome to Zentry
         </h2>
 
-        <AnimatedTitle />
-        {/* <div className="mt-5 text-center text-4xl uppercase leading-[0.8] md:text-[6rem]">
-          Disc<b>over</b> the world&apos;s l<b>a</b>rgest shared adventure
-        </div> */}
+        <AnimatedTitle
+          title="Disc<b>over</b> the world's <br /> l<b>a</b>rgest shared adventure"
+          containerClass="mt-5 text-center text-4xl uppercase leading-[0.8] md:text-[6rem]"
+        />
 
         <div className="about-subtext">
           <p>The Game of Games begins-your life, now an epic MMORPG</p>
@@ -47,11 +47,16 @@ const About = () => {
 
       <div className="h-dvh w-screen" id="clip">
         <div className="relative mask-clip-path about-image">
-            <Image src="/awwwards/img/about.webp" alt="Background" className="absolute left-0 top-0 size-full object-cover" fill />
+          <Image
+            src="/awwwards/img/about.webp"
+            alt="Background"
+            className="absolute left-0 top-0 size-full object-cover"
+            fill
+          />
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default About
+export default About;

@@ -1,10 +1,60 @@
+import gsap from "gsap";
+import { useEffect, useRef } from "react";
 
-const AnimatedTitle = () => {
-  return (
-    <div className="mt-5 text-center text-4xl uppercase leading-[0.8] md:text-[6rem]">
-      Disc<b>over</b> the world&apos;s l<b>a</b>rgest shared adventure
-    </div>
-  );
+interface AnimatedTitleProps {
+  title: string;
+  containerClass?: string;
 }
 
-export default AnimatedTitle
+const AnimatedTitle: React.FC<AnimatedTitleProps> = ({
+  title,
+  containerClass,
+}) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const titleAnimation = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "100 bottom",
+          end: "center bottom",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      titleAnimation.to(".animated-word", {
+        opacity: 1,
+        transform: "translate3d(0,0,0) rotateY(0deg) rotateX(0deg)",
+        ease: "power2.inOut",
+        stagger: 0.02,
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`animated-title ${containerClass}`}
+    >
+      {title.split("<br />").map((line, index) => (
+        <div
+          key={index}
+          className="flex-center max-w-full flex-wrap gap-2 px-10 md:gap-3 text-black"
+        >
+          {line.split(" ").map((word, idx) => (
+            <span
+              key={idx}
+              className="animated-word"
+              dangerouslySetInnerHTML={{ __html: word }}
+            ></span>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default AnimatedTitle;
